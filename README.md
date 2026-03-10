@@ -1,6 +1,9 @@
 # [DeathByCaptcha](https://deathbycaptcha.com/)
 
-[![Unit Tests](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml)
+[![Unit Tests Node 20](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml)
+[![Unit Tests Node 22](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml)
+[![Unit Tests Node 24](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml)
+[![Coverage](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml)
 [![API Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml)
 
 ## Introduction
@@ -497,11 +500,27 @@ gitlab-ci-local --file ./.gitlab-ci.yml
 GitHub Actions is configured in:
 
 - [.github/workflows/unit-tests.yml](.github/workflows/unit-tests.yml)
+- [.github/workflows/unit-tests-node22.yml](.github/workflows/unit-tests-node22.yml)
+- [.github/workflows/unit-tests-node24.yml](.github/workflows/unit-tests-node24.yml)
+- [.github/workflows/coverage.yml](.github/workflows/coverage.yml)
 - [.github/workflows/api-integration.yml](.github/workflows/api-integration.yml)
 
 #### Unit Tests workflow
 
-- Runs on Node.js 20, 22 and 24
+- Runs as separate workflows for Node.js 20, 22 and 24
+- Each executes:
+
+```bash
+npm install
+npm run test:unit
+```
+
+- Uses only native GitHub Actions
+- Exposes native workflow badges per Node.js version
+
+#### Coverage workflow
+
+- Runs on Node.js 22
 - Executes:
 
 ```bash
@@ -511,7 +530,7 @@ npm run test:coverage
 
 - Uses only native GitHub Actions
 - Uploads the `coverage/` folder as an artifact
-- Exposes a native GitHub Actions workflow badge
+- Exposes a separate native coverage badge
 
 #### API Integration workflow
 

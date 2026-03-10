@@ -1,4 +1,4 @@
-name: Unit Tests (Node 20)
+name: Unit Tests (Node 24)
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  unit_tests_node20:
-    name: Unit tests Node 20
+  unit_tests_node24:
+    name: Unit tests Node 24
     runs-on: ubuntu-latest
 
     steps:
@@ -17,15 +17,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Cache npm
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-20-npm-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-node-24-npm-${{ hashFiles('package.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-20-npm-
+            ${{ runner.os }}-node-24-npm-
 
       - name: Show versions
         run: |

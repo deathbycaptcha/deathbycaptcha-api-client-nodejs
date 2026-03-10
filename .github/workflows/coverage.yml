@@ -1,0 +1,62 @@
+name: Coverage
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  coverage_node22:
+    name: Coverage Node 22
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-coverage-node-22-npm-${{ hashFiles('package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-coverage-node-22-npm-
+
+      - name: Show versions
+        run: |
+          node --version
+          npm --version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run coverage
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run test:coverage 2>&1 | tee coverage-output.txt
+
+      - name: Add coverage summary
+        shell: bash
+        run: |
+          COVERAGE_LINE=$(grep -E '^All files' coverage-output.txt | tail -1 || true)
+          if [ -n "$COVERAGE_LINE" ]; then
+            echo "### Coverage (Node 22)" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            echo "$COVERAGE_LINE" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-node-22
+          path: coverage/
+          if-no-files-found: ignore
