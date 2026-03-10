@@ -9,6 +9,8 @@ jobs:
   api_integration:
     name: API basic integration
     runs-on: ubuntu-latest
+    env:
+      DBC_ENV: ${{ secrets.DBC_ENV }}
 
     steps:
       - name: Checkout
@@ -36,17 +38,17 @@ jobs:
         run: npm install
 
       - name: Create .env from DBC_ENV secret
-        if: ${{ secrets.DBC_ENV != '' }}
+        if: ${{ env.DBC_ENV != '' }}
         shell: bash
         run: |
-          printf '%s\n' "${{ secrets.DBC_ENV }}" > .env
+          printf '%s\n' "$DBC_ENV" > .env
           echo "Created .env from DBC_ENV secret"
 
       - name: Skip integration test when secret is missing
-        if: ${{ secrets.DBC_ENV == '' }}
+        if: ${{ env.DBC_ENV == '' }}
         run: |
           echo "DBC_ENV secret is not configured. Skipping API integration test." | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Run API integration test
-        if: ${{ secrets.DBC_ENV != '' }}
+        if: ${{ env.DBC_ENV != '' }}
         run: npm run test:integration:api
