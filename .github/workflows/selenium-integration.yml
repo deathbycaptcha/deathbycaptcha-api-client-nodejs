@@ -1,0 +1,55 @@
+name: Selenium Integration
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  selenium_integration:
+    name: Selenium integration (reCAPTCHA v2)
+    runs-on: ubuntu-latest
+    env:
+      MOZ_HEADLESS: '1'
+      DBC_USERNAME: ${{ secrets.DBC_USERNAME }}
+      DBC_PASSWORD: ${{ secrets.DBC_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-24-npm-${{ hashFiles('package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-24-npm-
+
+      - name: Install Firefox (for Selenium)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y firefox
+
+      - name: Show versions
+        run: |
+          node --version
+          npm --version
+          firefox --version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Skip integration test when secrets are missing
+        if: ${{ env.DBC_USERNAME == '' || env.DBC_PASSWORD == '' }}
+        run: |
+          echo "DBC_USERNAME and/or DBC_PASSWORD secrets are not configured. Skipping Selenium integration test." | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Run Selenium integration test
+        if: ${{ env.DBC_USERNAME != '' && env.DBC_PASSWORD != '' }}
+        run: npm run test:integration:selenium

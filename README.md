@@ -1,10 +1,8 @@
 # [DeathByCaptcha](https://deathbycaptcha.com/)
 
-[![Unit Tests Node 20](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml)
-[![Unit Tests Node 22](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml)
 [![Unit Tests Node 24](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml)
-[![Coverage](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml)
-[![API Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://deathbycaptcha.github.io/deathbycaptcha-api-client-nodejs/coverage-badge.json)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml)
+
 
 ## Introduction
 
@@ -556,3 +554,17 @@ DBC_PASSWORD=your_dbc_password
 
 - If either secret is missing, the workflow skips the integration test without failing the pipeline
 - Exposes a native GitHub Actions workflow badge
+
+---
+
+### Tests results
+
+| Workflow | Node | Status |
+|---|:---:|---|
+| Unit Tests | 20 | [![Unit Tests Node 20](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml) |
+| Unit Tests | 22 | [![Unit Tests Node 22](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml) |
+| Unit Tests | 24 | [![Unit Tests Node 24](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml) |
+| API Integration | 24 | [![API Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml) |
+| Selenium Integration | 24 | [![Selenium Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/selenium-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/selenium-integration.yml) |
+| Coverage | 22 | [![Coverage](https://img.shields.io/endpoint?url=https://deathbycaptcha.github.io/deathbycaptcha-api-client-nodejs/coverage-badge.json)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml) |
+
