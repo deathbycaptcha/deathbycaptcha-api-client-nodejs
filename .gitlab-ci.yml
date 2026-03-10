@@ -1,0 +1,58 @@
+stages:
+  - test
+  - integration
+
+unit_tests:
+  stage: test
+  image: node:${NODE_VERSION}
+  coverage: '/All files[^\n]*\|[^\n]*\|[^\n]*\|[^\n]*\|\s*([0-9]+(?:\.[0-9]+)?)/'
+  parallel:
+    matrix:
+      - NODE_VERSION: ["20", "22", "24"]
+  cache:
+    key: npm-${NODE_VERSION}
+    paths:
+      - .npm/
+  before_script:
+    - node --version
+    - npm --version
+    - npm install --cache .npm --prefer-offline
+  script:
+    - npm run test:coverage
+  artifacts:
+    when: always
+    paths:
+      - coverage/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+integration_api_basic:
+  stage: integration
+  image: node:24
+  cache:
+    key: npm-integration-api
+    paths:
+      - .npm/
+  before_script:
+    - node --version
+    - npm --version
+    - npm install --cache .npm --prefer-offline
+  script:
+    - |
+      if [ -f .env ]; then
+        echo "Using local .env file"
+      elif [ -n "$DBC_ENV_FILE" ] && [ -f "$DBC_ENV_FILE" ]; then
+        cp "$DBC_ENV_FILE" .env
+        echo "Using .env from DBC_ENV_FILE"
+      elif [ -n "$DBC_ENV" ]; then
+        printf '%s\n' "$DBC_ENV" > .env
+        echo "Using .env from DBC_ENV"
+      else
+        echo "No .env, DBC_ENV_FILE or DBC_ENV provided; skipping API integration test"
+        exit 0
+      fi
+    - npm run test:integration:api
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH

@@ -1,0 +1,6 @@
+# Copy this file to .gitlab-ci-local-variables.yml for local gitlab-ci-local runs.
+# gitlab-ci-local loads this file automatically by default.
+
+DBC_ENV: |
+  DBC_USERNAME=your_dbc_username
+  DBC_PASSWORD=your_dbc_password

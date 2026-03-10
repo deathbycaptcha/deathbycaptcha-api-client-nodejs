@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Coverage / test output
+coverage/
+.nyc_output/
+
+# Package manager caches
+.npm/
+.pnpm-store/
+.yarn/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build / temp
+dist/
+build/
+tmp/
+temp/
+*.tsbuildinfo
+.eslintcache
+
+# Local CI helpers
+.gitlab-ci-local/
+.gitlab-ci-local-variables.yml
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

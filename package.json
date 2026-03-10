@@ -1,0 +1,50 @@
+{
+  "name": "deathbycaptcha-lib",
+  "version": "4.7.0",
+  "description": "DeathByCaptcha API Clients",
+  "main": "./deathbycaptcha.js",
+  "exports": {
+    ".": "./deathbycaptcha.js"
+  },
+  "files": [
+    "deathbycaptcha.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "echo \"Use npm run test:integration\"",
+    "test:unit": "jest --runInBand",
+    "test:coverage": "jest --coverage --runInBand",
+    "test:integration": "npm run test:integration:api && npm run test:integration:selenium",
+    "test:integration:api": "node tests/integration/api.basic.integration.test.js",
+    "test:integration:selenium": "node tests/integration/selenium.integration.test.js"
+  },
+  "jest": {
+    "testMatch": [
+      "**/tests/unit/**/*.test.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/.gitlab-ci-local/"
+    ],
+    "collectCoverageFrom": [
+      "deathbycaptcha.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 70,
+        "statements": 70,
+        "functions": 70
+      }
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "form-data": "^2.3.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "selenium-webdriver": "^4.41.0"
+  }
+}
