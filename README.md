@@ -523,13 +523,17 @@ npm install
 npm run test:integration:api
 ```
 
-- Uses a single GitHub secret named `DBC_ENV`
-- `DBC_ENV` should contain the full `.env` content, for example:
+- Uses GitHub secrets:
+    - `DBC_USERNAME`
+    - `DBC_PASSWORD`
+- Optional runtime env in workflow:
+    - `MOZ_HEADLESS=1`
+- No committed `.env` file is required in GitHub Actions
 
 ```bash
 DBC_USERNAME=your_dbc_username
 DBC_PASSWORD=your_dbc_password
 ```
 
-- If `DBC_ENV` is not configured, the workflow skips the integration test without failing the pipeline
+- If either secret is missing, the workflow skips the integration test without failing the pipeline
 - Exposes a native GitHub Actions workflow badge

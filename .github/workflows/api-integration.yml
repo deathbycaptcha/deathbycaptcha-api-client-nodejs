@@ -10,7 +10,9 @@ jobs:
     name: API basic integration
     runs-on: ubuntu-latest
     env:
-      DBC_ENV: ${{ secrets.DBC_ENV }}
+      MOZ_HEADLESS: '1'
+      DBC_USERNAME: ${{ secrets.DBC_USERNAME }}
+      DBC_PASSWORD: ${{ secrets.DBC_PASSWORD }}
 
     steps:
       - name: Checkout
@@ -37,18 +39,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Create .env from DBC_ENV secret
-        if: ${{ env.DBC_ENV != '' }}
-        shell: bash
+      - name: Skip integration test when secrets are missing
+        if: ${{ env.DBC_USERNAME == '' || env.DBC_PASSWORD == '' }}
         run: |
-          printf '%s\n' "$DBC_ENV" > .env
-          echo "Created .env from DBC_ENV secret"
-
-      - name: Skip integration test when secret is missing
-        if: ${{ env.DBC_ENV == '' }}
-        run: |
-          echo "DBC_ENV secret is not configured. Skipping API integration test." | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "DBC_USERNAME and/or DBC_PASSWORD secrets are not configured. Skipping API integration test." | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Run API integration test
-        if: ${{ env.DBC_ENV != '' }}
+        if: ${{ env.DBC_USERNAME != '' && env.DBC_PASSWORD != '' }}
         run: npm run test:integration:api
