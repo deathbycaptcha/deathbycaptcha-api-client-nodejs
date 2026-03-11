@@ -1,6 +1,6 @@
 {
   "name": "deathbycaptcha-lib",
-  "version": "4.7.0",
+  "version": "4.7.1",
   "description": "DeathByCaptcha API Clients",
   "main": "./deathbycaptcha.js",
   "exports": {

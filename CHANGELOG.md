@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.7.0 - 2026-03-10
+## 4.7.1 - 2026-03-11
 
 ### Added
 - Package publish setup under npm name `deathbycaptcha-lib`.
@@ -27,7 +27,7 @@
   - `.gitlab-ci-local-variables.example.yml`
 
 ### Changed
-- Package version bumped to `4.7.0`.
+- Package version bumped to `4.7.1`.
 - Client API version string bumped to `DBC/NodeJS v4.7`.
 - Main and examples imports updated to consume package name `deathbycaptcha-lib`.
 - Repository structure clarified so sample scripts live under `examples/`.
