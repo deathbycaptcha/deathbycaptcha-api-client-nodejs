@@ -1,5 +1,14 @@
 const { Builder, until, By } = require('selenium-webdriver');
-const { HttpClient } = require('../../deathbycaptcha');
+
+let HttpClient;
+try {
+  ({ HttpClient } = require('deathbycaptcha-lib'));
+} catch (_) {
+  ({ HttpClient } = require('../../deathbycaptcha'));
+}
+
+const USERNAME = 'DBC_USERNAME';
+const PASSWORD = 'DBC_PASSWORD';
 
 const DEFAULT_CAPTCHA_URL = 'https://www.google.com/recaptcha/api2/demo';
 const DEFAULT_TIMEOUT_MS = 15000;
@@ -128,7 +137,10 @@ async function runSeleniumSample({
 }
 
 if (require.main === module) {
-  runSeleniumSample()
+  const username = USERNAME !== 'DBC_USERNAME' ? USERNAME : process.env.DBC_USERNAME;
+  const password = PASSWORD !== 'DBC_PASSWORD' ? PASSWORD : process.env.DBC_PASSWORD;
+
+  runSeleniumSample({ username, password })
     .then(() => process.exit(0))
     .catch((error) => {
       console.log(error && error.message ? error.message : error);
