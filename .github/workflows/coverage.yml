@@ -9,6 +9,10 @@ jobs:
   coverage_node22:
     name: Coverage Node 22
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
     steps:
       - name: Checkout
@@ -45,18 +49,62 @@ jobs:
         shell: bash
         run: |
           COVERAGE_LINE=$(grep -E '^All files' coverage-output.txt | tail -1 || true)
-          if [ -n "$COVERAGE_LINE" ]; then
-            echo "### Coverage (Node 22)" >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
-            echo "$COVERAGE_LINE" >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          if [ -z "$COVERAGE_LINE" ]; then
+            echo "WARNING: Could not find 'All files' line in coverage output" >&2
+            cat coverage-output.txt >&2 || true
+            exit 0
           fi
+
+          # Extract Lines % (5th pipe-delimited column, 0-indexed $4 in awk 0-base, $5 in 1-base)
+          LINES_PCT=$(echo "$COVERAGE_LINE" | awk -F'|' '{gsub(/ /, "", $5); print $5}')
+
+          if [ -z "$LINES_PCT" ]; then
+            echo "WARNING: Could not parse Lines % from: $COVERAGE_LINE" >&2
+            exit 0
+          fi
+
+          COLOR="red"
+          awk "BEGIN {exit !($LINES_PCT >= 85)}" && COLOR="brightgreen" || true
+          awk "BEGIN {exit !($LINES_PCT >= 70 && $LINES_PCT < 85)}" && COLOR="yellow" || true
+
+          echo "### Coverage (Node 22)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "$COVERAGE_LINE" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Lines coverage:** ${LINES_PCT}%" >> "$GITHUB_STEP_SUMMARY"
+
+          echo "LINES_COVERAGE_PERCENT=${LINES_PCT}" | tee coverage-percent.txt
+          echo "Coverage lines percent: ${LINES_PCT}%"
+
+          mkdir -p pages
+          # Use printf to avoid heredoc indentation issues in YAML run blocks
+          printf '{"schemaVersion":1,"label":"coverage","message":"%s%%","color":"%s"}\n' \
+            "${LINES_PCT}" "${COLOR}" > pages/coverage-badge.json
+          echo "Generated badge JSON:"
+          cat pages/coverage-badge.json
 
       - name: Upload coverage artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-node-22
-          path: coverage/
+          path: |
+            coverage/
+            coverage-percent.txt
           if-no-files-found: ignore
+
+      - name: Configure Pages
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+      - name: Deploy to GitHub Pages
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: actions/deploy-pages@v4
