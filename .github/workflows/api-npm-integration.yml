@@ -1,0 +1,49 @@
+name: API npm Integration
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  api_npm_integration:
+    name: API integration (deathbycaptcha-lib from npm)
+    runs-on: ubuntu-latest
+    env:
+      DBC_USERNAME: ${{ secrets.DBC_USERNAME }}
+      DBC_PASSWORD: ${{ secrets.DBC_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-24-npm-deathbycaptcha-lib
+          restore-keys: |
+            ${{ runner.os }}-node-24-npm-deathbycaptcha-lib
+
+      - name: Show versions
+        run: |
+          node --version
+          npm --version
+
+      - name: Install deathbycaptcha-lib from npm
+        run: npm install deathbycaptcha-lib
+
+      - name: Skip integration test when secrets are missing
+        if: ${{ env.DBC_USERNAME == '' || env.DBC_PASSWORD == '' }}
+        run: |
+          echo "DBC_USERNAME and/or DBC_PASSWORD secrets are not configured. Skipping API npm integration test." | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Run API npm integration test
+        if: ${{ env.DBC_USERNAME != '' && env.DBC_PASSWORD != '' }}
+        run: node tests/integration/api.npm.integration.test.js
