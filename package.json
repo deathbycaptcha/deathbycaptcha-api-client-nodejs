@@ -46,5 +46,19 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "selenium-webdriver": "^4.41.0"
-  }
+  },
+  "directories": {
+    "example": "examples",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/issues"
+  },
+  "homepage": "https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs#readme"
 }

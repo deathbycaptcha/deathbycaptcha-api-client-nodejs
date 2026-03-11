@@ -8,6 +8,9 @@ jobs:
   publish:
     name: Publish to npm Registry
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -16,16 +19,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
 
       - name: Cache npm
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-22-npm-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-node-24-npm-${{ hashFiles('package.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-22-npm-
+            ${{ runner.os }}-node-24-npm-
 
       - name: Show versions
         run: |
@@ -35,7 +38,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Publish to npm
+      - name: Publish to npm (Trusted Publisher)
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
