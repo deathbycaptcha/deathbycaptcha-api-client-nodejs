@@ -569,3 +569,7 @@ DBC_PASSWORD=your_dbc_password
 | API npm Integration | 24 | [![API npm Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-npm-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-npm-integration.yml) |
 | Coverage | 22 | [![Coverage](https://img.shields.io/endpoint?url=https://deathbycaptcha.github.io/deathbycaptcha-api-client-nodejs/coverage-badge.json)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml) |
 
+## Responsible Use
+
+See [Responsible Use Agreement](RESPONSIBLE_USE.md).
+
