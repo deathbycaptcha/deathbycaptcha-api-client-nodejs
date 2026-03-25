@@ -9,7 +9,6 @@
   <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-php"><img alt="PHP" src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white"></a>
   <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-perl"><img alt="Perl" src="https://img.shields.io/badge/Perl-39457E?style=for-the-badge&logo=perl&logoColor=white"></a>
   <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-c11"><img alt="C" src="https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=black"></a>
-  <a href="https://github.com/deathbycaptcha/dbc_api_autoit"><img alt="AutoIt" src="https://img.shields.io/badge/AutoIt-1C3552?style=for-the-badge"></a>
 </p>
 
 
@@ -40,11 +39,8 @@ client.decode({captcha: 'path/to/captcha.jpg'}, (captcha) => {
 
 ### Tests Status
 
-[![Unit Tests Node 20](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml)
-[![Unit Tests Node 22](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml)
 [![Unit Tests Node 24](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml)
 [![API Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml)
-[![Selenium Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/selenium-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/selenium-integration.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https://deathbycaptcha.github.io/deathbycaptcha-api-client-nodejs/coverage-badge.json)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml)
 
 ---
@@ -75,6 +71,7 @@ client.decode({captcha: 'path/to/captcha.jpg'}, (captcha) => {
 - [Testing](#testing)
     - [Setup test environment](#setup-test-environment)
     - [Run unit tests](#run-unit-tests)
+    - [Run unit coverage](#run-unit-coverage)
     - [Run API basic integration test](#run-api-basic-integration-test)
     - [Run Selenium integration test](#run-selenium-integration-test)
     - [Run full integration suite](#run-full-integration-suite)
@@ -889,6 +886,7 @@ Cloudflare Turnstile is a CAPTCHA alternative that protects pages without requir
 
 ---
 
+<a id="testing"></a>
 ## 🔬 Testing
 
 <a id="setup-test-environment"></a>
@@ -922,6 +920,7 @@ DBC_PASSWORD=your_dbc_password
 npm run test:unit
 ```
 
+<a id="run-unit-coverage"></a>
 ### Run unit coverage
 
 ```bash
@@ -965,6 +964,7 @@ The test file is:
 npm run test:integration
 ```
 
+<a id="ci"></a>
 ## CI
 
 <a id="gitlab-unit-test-matrix"></a>
