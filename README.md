@@ -1,47 +1,80 @@
 # [DeathByCaptcha](https://deathbycaptcha.com/)
 
+
+<p align="center">
+  <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-python"><img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"></a>
+  <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs"><img alt="Node.js" src="https://img.shields.io/badge/%E2%80%BA-Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white&labelColor=555555"></a>
+  <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-dotnet"><img alt=".NET" src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white"></a>
+  <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-java"><img alt="Java" src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"></a>
+  <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-php"><img alt="PHP" src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white"></a>
+  <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-perl"><img alt="Perl" src="https://img.shields.io/badge/Perl-39457E?style=for-the-badge&logo=perl&logoColor=white"></a>
+  <a href="https://github.com/deathbycaptcha/deathbycaptcha-api-client-c11"><img alt="C" src="https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=black"></a>
+  <a href="https://github.com/deathbycaptcha/dbc_api_autoit"><img alt="AutoIt" src="https://img.shields.io/badge/AutoIt-1C3552?style=for-the-badge"></a>
+</p>
+
+
+## 📖 Introduction
+
+The [DeathByCaptcha](https://deathbycaptcha.com) Node.js client is the official library for the DeathByCaptcha **captcha solving service**. It provides a simple, well-documented interface for integrating CAPTCHA solving into automation workflows — a particularly common need when you use it as a **captcha solver for web scraping**, where CAPTCHAs block access to the pages you need to extract data from. It supports both the HTTPS API (encrypted transport — recommended when security is a priority) and the socket-based API (faster and lower latency, recommended for high-throughput production workloads).
+
+Key features:
+
+- 🧩 Send image, audio and modern token-based CAPTCHA types (reCAPTCHA v2/v3, Turnstile, GeeTest, etc.).
+- 🔄 Unified client API across HTTP and socket transports — switching implementations is straightforward.
+- 🔐 Built-in support for proxies, timeouts and advanced token parameters for modern CAPTCHA flows.
+
+Quick start example (HTTP):
+
+```javascript
+const dbc = require('deathbycaptcha-lib');
+
+const client = new dbc.HttpClient('your_username', 'your_password');
+client.decode({captcha: 'path/to/captcha.jpg'}, (captcha) => {
+    if (captcha) console.log(captcha['text']);
+});
+```
+
+> **🚌 Transport options:** Use `HttpClient` for encrypted HTTPS communication — credentials and data travel over TLS. Use `SocketClient` for lower latency and higher throughput — it is faster but communicates over a plain TCP connection to `api.dbcapi.me` on ports `8123–8130`.
+
+---
+
+### Tests Status
+
+[![Unit Tests Node 20](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests.yml)
+[![Unit Tests Node 22](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node22.yml)
 [![Unit Tests Node 24](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/unit-tests-node24.yml)
+[![API Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-integration.yml)
+[![Selenium Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/selenium-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/selenium-integration.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https://deathbycaptcha.github.io/deathbycaptcha-api-client-nodejs/coverage-badge.json)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml)
 
+---
 
-## Introduction
+## 🗂️ Index
 
-DeathByCaptcha offers APIs of two types — HTTP and socket-based, with the latter being recommended for having faster responses and overall better performance. Switching between different APIs is usually as easy as changing the client class and/or package name, the interface stays the same.
-
-When using the socket API, please make sure that outgoing TCP traffic to *api.dbcapi.me* to the ports range *8123–8130* is not blocked on your side.
-
-## Index
-
-- [Introduction](#introduction) — overview and API transport options.
 - [Installation](#installation)
-    - [From npm](#from-npm)
-    - [From GitHub repo](#from-github-repo)
+    - [From npm (Recommended)](#from-npm-recommended)
+    - [From GitHub Repository](#from-github-repository)
 - [How to Use DBC API Clients](#how-to-use-dbc-api-clients)
     - [Common Clients' Interface](#common-clients-interface)
-        - [Upload()](#upload)
-        - [GetCaptcha()](#getcaptcha)
-        - [Report()](#report)
-        - [Decode()](#decode)
-        - [GetBalance()](#getbalance)
-    - [CAPTCHA objects/details hashes](#captcha-objectsdetails-hashes)
-    - [Example](#example)
-        - [Quick balance sample](examples/get_balance.js)
-        - [Selenium sample (reCAPTCHA v2 token)](examples/selenium/recaptcha_v2_selenium.js)
-- [Recaptcha API support](#new-recaptcha-api-support)
-    - [What's "new reCAPTCHA/noCAPTCHA"?](#whats-new-recaptchano-captcha)
-    - [Coordinates API FAQ](#coordinates-api-faq)
-    - [Image Group API FAQ](#image-group-api-faq)
-- [Recaptcha by Token API support (reCAPTCHA v2 and reCAPTCHA v3)](#new-recaptcha-by-token-api-support-recaptcha-v2-and-recaptcha-v3)
-    - [What's "new reCAPTCHA by Token"?](#whats-new-recaptcha-by-token)
+    - [Available Methods](#available-methods)
+- [Credentials & Configuration](#credentials--configuration)
+    - [Quick Setup](#quick-setup)
+- [CAPTCHA Types Quick Reference & Examples](#captcha-types-quick-reference--examples)
+    - [Quick Start](#quick-start)
+    - [Type Reference](#type-reference)
+    - [Per-Type Code Snippets](#per-type-code-snippets)
+- [CAPTCHA Types Extended Reference](#captcha-types-extended-reference)
+    - [Featured Sample: Selenium reCAPTCHA v2](#featured-sample-selenium-recaptcha-v2)
+    - [reCAPTCHA Image-Based API — Deprecated (Types 2 & 3)](#recaptcha-image-based-api--deprecated-types-2--3)
+    - [reCAPTCHA Token API (v2 & v3)](#recaptcha-token-api-v2--v3)
     - [reCAPTCHA v2 API FAQ](#recaptcha-v2-api-faq)
-    - [What's "new reCAPTCHA v3"?](#whats-new-recaptcha-v3)
+    - [What is reCAPTCHA v3?](#what-is-recaptcha-v3)
     - [reCAPTCHA v3 API FAQ](#recaptcha-v3-api-faq)
-- [Selenium Quick Start](examples/selenium/README.md)
-    - [Example script](examples/selenium/recaptcha_v2_selenium.js)
-    - [Integration test](tests/integration/selenium.integration.test.js)
-    - [Env sample](.env.sample)
+    - [Amazon WAF API (Type 16)](#amazon-waf-api-type-16)
+    - [Cloudflare Turnstile API (Type 12)](#cloudflare-turnstile-api-type-12)
 - [Testing](#testing)
     - [Setup test environment](#setup-test-environment)
+    - [Run unit tests](#run-unit-tests)
     - [Run API basic integration test](#run-api-basic-integration-test)
     - [Run Selenium integration test](#run-selenium-integration-test)
     - [Run full integration suite](#run-full-integration-suite)
@@ -49,23 +82,21 @@ When using the socket API, please make sure that outgoing TCP traffic to *api.db
     - [GitLab unit test matrix](#gitlab-unit-test-matrix)
     - [GitHub Actions](#github-actions)
 
-## Installation
 
-### From npm
+<a id="installation"></a>
+## 🛠️ Installation
+
+<a id="from-npm-recommended"></a>
+### 📦 From npm (Recommended)
 
 ```bash
 npm install deathbycaptcha-lib
 ```
 
-### From GitHub repo
+<a id="from-github-repository"></a>
+### 🐙 From GitHub Repository
 
-Install directly from the repository URL:
-
-```bash
-npm install git+https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs.git
-```
-
-Or clone and install locally:
+For the latest development version or to contribute:
 
 ```bash
 git clone https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs.git
@@ -73,216 +104,603 @@ cd deathbycaptcha-api-client-nodejs
 npm install
 ```
 
-## How to Use DBC API Clients
+Or install directly from the repository URL without cloning:
 
-### Common Clients' Interface
-
-All clients have to be instantiated with two string arguments: your DeathByCaptcha account's *username* and *password*.
-
-All clients provides a few methods   to handle your CAPTCHAs and your DBC account. Below you will find those methods' short summary and signatures in pseudo-code. Check the example scripts and the clients' source code for more details.
-
-#### Upload()
-
-Uploads a CAPTCHA to the DBC service for solving, returns uploaded CAPTCHA details on success, `NULL` otherwise. Here are the signatures in pseudo-code:
-
-```javascript
-dict dbc.Client.upload(file imageFile)
-
-dict dbc.Client.upload(str imageFileName)
-```  
-
-#### GetCaptcha()
-
-Fetches uploaded CAPTCHA details, returns `NULL` on failures.
-
-```javascript
-dict dbc.Client.get_captcha(dict imageFileName)
+```bash
+npm install git+https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs.git
 ```
 
-#### Report()
+<a id="how-to-use-dbc-api-clients"></a>
+## 🚀 How to Use DBC API Clients
 
-Reports incorrectly solved CAPTCHA for refund, returns `true` on success, `false` otherwise.
+<a id="common-clients-interface"></a>
+### 🔌 Common Clients' Interface
 
-Please make sure the CAPTCHA you're reporting was in fact incorrectly solved, do not just report them thoughtlessly, or else you'll be flagged as abuser and banned.
-
-```javascript
-bool dbc.Client.report(int captchaId)
-```
-
-#### Decode()
-
-This method uploads a CAPTCHA, then polls for its status until it's solved or times out; returns solved CAPTCHA details on success, `NULL` otherwise.
+All clients must be instantiated with your DeathByCaptcha credentials — either *username* and *password*, or an *authtoken* (available in the DBC user panel). Replace `HttpClient` with `SocketClient` to use the socket transport instead.
 
 ```javascript
-dict dbc.Client.decode(file imageFile, int timeout)
+const dbc = require('deathbycaptcha-lib');
 
-dict dbc.Client.decode(str imageFileName, int timeout)
+// Username + password (HTTPS transport — encrypted, recommended when security matters)
+const client = new dbc.HttpClient(username, password);
+
+// Username + password (socket transport — faster, lower latency, recommended for high throughput)
+// const client = new dbc.SocketClient(username, password);
+
+// Authtoken — pass "authtoken" as the first argument, token as second
+// const client = new dbc.HttpClient('authtoken', token_from_panel);
 ```
 
-#### GetBalance()
+| Transport | Class | Best for |
+|---|---|---|
+| HTTPS | `dbc.HttpClient` | Encrypted TLS transport — safer for credential handling and network-sensitive environments |
+| Socket | `dbc.SocketClient` | Plain TCP — faster and lower latency, recommended for high-throughput production workloads |
 
-Fetches your current DBC credit balance (in US cents).
+All clients share the same interface. Below is a summary of every available method.
+
+<a id="available-methods"></a>
+
+| Method | Signature | Description |
+|---|---|---|
+| `upload()` | `upload({captcha, extra}, callback)` | Upload a CAPTCHA for solving without waiting. `captcha` is a file path; `extra` carries type-specific params (`type`, `token_params`, `waf_params`, etc.). |
+| `decode()` | `decode({captcha, extra}, callback)` | Upload and poll until solved or timed out. Preferred method for most integrations. Callback receives the result object or `null`. |
+| `get_captcha()` | `get_captcha(captchaId, callback)` | Fetch status and result of a previously uploaded CAPTCHA by its numeric ID. |
+| `report()` | `report(captchaId, callback)` | Report a CAPTCHA as incorrectly solved to request a refund. Only report genuine errors. |
+| `get_balance()` | `get_balance(callback)` | Return the current account balance in US cents via callback. |
+
+### 📬 CAPTCHA Result Object
+
+All methods that return a solved CAPTCHA pass a plain object to the callback with the following keys:
+
+| Key | Type | Description |
+|---|---|---|
+| `"captcha"` | `number` | Numeric CAPTCHA ID assigned by DBC |
+| `"text"` | `string` | Solved text or token (the value you inject into the page) |
+| `"is_correct"` | `boolean` | Whether DBC considers the solution correct |
 
 ```javascript
-float dbc.Client.get_balance()
+// Example result object
+{
+    captcha: 123456789,
+    text: '03AOPBWq_...',
+    is_correct: true
+}
 ```
 
+### 💡 Full Usage Example
 
-### CAPTCHA objects/details hashes
+```javascript
+const dbc = require('deathbycaptcha-lib');
 
-Use simple hashes (dictionaries, associative arrays etc.) to store CAPTCHA details, keeping numeric IDs under "captcha" key, CAPTCHA text under "text" key, and the correctness flag under "is_correct" key.
+const client = new dbc.HttpClient(username, password);
 
-### Example
+client.get_balance((balance) => {
+    console.log('Balance:', balance, 'US cents');
+});
 
-Below you can find a DBC API client usage examples.
+client.decode({captcha: 'path/to/captcha.jpg'}, (captcha) => {
+    if (captcha) {
+        console.log('Solved CAPTCHA ' + captcha['captcha'] + ': ' + captcha['text']);
 
-Quick balance sample:
+        // Report only if you are certain the solution is wrong:
+        // client.report(captcha['captcha'], (result) => {
+        //     console.log('Report status: ' + result);
+        // });
+    }
+});
+```
+
+Quick balance check from the command line:
 
 ```bash
 node examples/get_balance.js <username> <password> HTTP
 ```
 
-Selenium internal guide (reCAPTCHA v2 token):
+<a id="credentials--configuration"></a>
+## 🔑 Credentials & Configuration
 
-- [examples/selenium/README.md](examples/selenium/README.md)
+<a id="quick-setup"></a>
+### ⚡ Quick Setup
 
+```bash
+# ① Copy template and add credentials
+cp .env.sample .env
+# Edit .env with your username and password
+
+# ② Run unit tests locally (fastest)
+npm run test:unit
+
+# ③ Run the full integration suite
+npm run test:integration
+
+# ④ Push to repo for GitHub Actions and GitLab CI
+git push
+```
+
+<a id="captcha-types-quick-reference--examples"></a>
+## 🧩 CAPTCHA Types Quick Reference & Examples
+
+This section covers every supported CAPTCHA type, how to run the corresponding example scripts, and ready-to-copy code snippets. Start with the Quick Start below, then use the Type Reference to find the type you need.
+
+<a id="quick-start"></a>
+### 🏁 Quick Start
+
+1. **📦 Install the library** (see [Installation](#installation))
+2. **📂 Navigate to the `examples/` directory** and run the script for the type you need:
+
+```bash
+cd examples
+node example.normal_Captcha.js
+
+# Balance check (accepts credentials as arguments):
+node get_balance.js <username> <password> HTTP
+```
+
+> ⚠️ Always run examples from the `examples/` directory so the `images/` folder is accessible to scripts that need it.
+
+Before running any script, add your DBC credentials inside it:
 
 ```javascript
-const dbc = require('deathbycaptcha-lib');
+const username = 'your_username';
+const password = 'your_password';
+```
 
-// Put your DBC account username and password here.
-const username = 'username';     // DBC account username
-const password = 'password';     // DBC account password
-const captcha_file = 'test.jpg';    // Image filename
+<a id="type-reference"></a>
+### 📋 Type Reference
 
-// Use dbc.HttpClient for HTTP API.
-const client = new dbc.SocketClient(username, password);
+The table below maps every supported type to its use case, a code snippet, and the corresponding example file in `examples/`.
 
-const balance = client.get_balance()
+| Type ID | CAPTCHA Type | Use Case | Quick Use | Node.js Sample |
+| --- | --- | --- | --- | --- |
+| 0 | Standard Image | Basic image CAPTCHA | [snippet](#sample-type-0-standard-image) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.normal_Captcha.js) |
+| 2 | ~~reCAPTCHA Coordinates~~ | Deprecated — do not use for new integrations | — | — |
+| 3 | ~~reCAPTCHA Image Group~~ | Deprecated — do not use for new integrations | — | — |
+| 4 | reCAPTCHA v2 Token | reCAPTCHA v2 token solving | [snippet](#sample-type-4-recaptcha-v2-token) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.reCAPTCHA_v2.js) |
+| 5 | reCAPTCHA v3 Token | reCAPTCHA v3 with risk scoring | [snippet](#sample-type-5-recaptcha-v3-token) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.reCAPTCHA_v3.js) |
+| 25 | reCAPTCHA v2 Enterprise | reCAPTCHA v2 Enterprise tokens | [snippet](#sample-type-25-recaptcha-v2-enterprise) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.reCAPTCHA_v2_enterprise.js) |
+| 8 | GeeTest v3 | Geetest v3 verification | [snippet](#sample-type-8-geetest-v3) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Geetest_v3.js) |
+| 9 | GeeTest v4 | Geetest v4 verification | [snippet](#sample-type-9-geetest-v4) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Geetest_v4.js) |
+| 11 | Text CAPTCHA | Text-based question solving | [snippet](#sample-type-11-text-captcha) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Textcaptcha.js) |
+| 12 | Cloudflare Turnstile | Cloudflare Turnstile token | [snippet](#sample-type-12-cloudflare-turnstile) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Turnstile.js) |
+| 13 | Audio CAPTCHA | Audio CAPTCHA solving | [snippet](#sample-type-13-audio-captcha) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Audio.js) |
+| 14 | Lemin | Lemin CAPTCHA | [snippet](#sample-type-14-lemin) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Lemin.js) |
+| 15 | Capy | Capy CAPTCHA | [snippet](#sample-type-15-capy) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Capy.js) |
+| 16 | Amazon WAF | Amazon WAF verification | [snippet](#sample-type-16-amazon-waf) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Amazon_Waf.js) |
+| 17 | Siara | Siara CAPTCHA | [snippet](#sample-type-17-siara) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Siara.js) |
+| 18 | MTCaptcha | Mtcaptcha CAPTCHA | [snippet](#sample-type-18-mtcaptcha) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Mtcaptcha.js) |
+| 19 | Cutcaptcha | Cutcaptcha CAPTCHA | [snippet](#sample-type-19-cutcaptcha) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Cutcaptcha.js) |
+| 20 | Friendly Captcha | Friendly Captcha | [snippet](#sample-type-20-friendly-captcha) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Friendlycaptcha.js) |
+| 21 | DataDome | Datadome verification | [snippet](#sample-type-21-datadome) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Datadome.js) |
+| 23 | Tencent | Tencent CAPTCHA | [snippet](#sample-type-23-tencent) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Tencent.js) |
+| 24 | ATB | ATB CAPTCHA | [snippet](#sample-type-24-atb) | [open](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Atb.js) |
 
-// Put your CAPTCHA file name or file-like object, and optional
-// solving timeout (in seconds) here:
-client.get_balance((balance) => {
-    console.log(balance);
-});
-client.decode({captcha: captcha_file, extra: {type: 2}}, (captcha) => {
-    if (captcha) {
-        console.log('Captcha ' + captcha['captcha'] + ' solved: ' + captcha['text']);
-  
-    // Report an incorrectly solved CAPTCHA.
-            // Make sure the CAPTCHA was in fact incorrectly solved!
-            // client.report(captcha['captcha'], (result) => {
-            //   console.log('Report status: ' + result);
-            // });
-    }
+<a id="per-type-code-snippets"></a>
+### 📝 Per-Type Code Snippets
+
+Minimal usage snippet for each supported type. Use these as a starting point and refer to the full example files in `examples/` for complete implementations.
+
+<a id="sample-type-0-standard-image"></a>
+#### 🖼️ Sample Type 0: Standard Image
+Official description: [Supported CAPTCHAs](https://deathbycaptcha.com/api#supported_captchas)
+Full sample: [example.normal_Captcha.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.normal_Captcha.js)
+
+```javascript
+client.decode({captcha: 'images/normal.jpg'}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
 });
 ```
 
-# New Recaptcha API support
+---
 
-## What's "new reCAPTCHA/noCAPTCHA"?
+<a id="sample-type-4-recaptcha-v2-token"></a>
+#### 🤖 Sample Type 4: reCAPTCHA v2 Token
+Official description: [reCAPTCHA Token API (v2)](https://deathbycaptcha.com/api/newtokenrecaptcha#token-v2)
+Full sample: [example.reCAPTCHA_v2.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.reCAPTCHA_v2.js)
 
-They're new reCAPTCHA challenges that typically require the user to identify and click on certain images. They're not to be confused with traditional word/number reCAPTCHAs (those have no images).
+```javascript
+const token_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    googlekey: 'sitekey',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 4, token_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
-For your convinience, we implemented support for New Recaptcha API. If your software works with it, and supports minimal configuration, you should be able to decode captchas using New Recaptcha API in no time.
+---
 
-We provide two different types of New Recaptcha API:
+<a id="sample-type-5-recaptcha-v3-token"></a>
+#### 🤖 Sample Type 5: reCAPTCHA v3 Token
+Official description: [reCAPTCHA v3](https://deathbycaptcha.com/api/newtokenrecaptcha#reCAPTCHAv3)
+Full sample: [example.reCAPTCHA_v3.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.reCAPTCHA_v3.js)
 
--   **Coordinates API**: Provided a screenshot, the API returns a group of coordinates to click.
--   **Image Group API**: Provided a group of (base64-encoded) images, the API returns the indexes of the images to click.
+```javascript
+const token_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    googlekey: 'sitekey',
+    pageurl: 'https://target',
+    action: 'verify',
+    min_score: 0.3,
+});
+client.decode({extra: {type: 5, token_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
-## Coordinates API FAQ:
+---
 
-**What's the Coordinates API URL?**  
-To use the **Coordinates API** you will have to send a HTTP POST Request to <http://api.dbcapi.me/api/captcha>
+<a id="sample-type-25-recaptcha-v2-enterprise"></a>
+#### 🏢 Sample Type 25: reCAPTCHA v2 Enterprise
+Official description: [reCAPTCHA v2 Enterprise](https://deathbycaptcha.com/api/newtokenrecaptcha#reCAPTCHAv2Enterprise)
+Full sample: [example.reCAPTCHA_v2_enterprise.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.reCAPTCHA_v2_enterprise.js)
 
-What are the POST parameters for the **Coordinates API**?  
+```javascript
+const token_enterprise_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    googlekey: 'sitekey',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 25, token_enterprise_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
--   **`username`**: Your DBC account username
--   **`password`**: Your DBC account password
--   **`captchafile`**: a Base64 encoded or Multipart file contents with a valid New Recaptcha screenshot
--   **`type`=2**: Type 2 specifies this is a New Recaptcha **Coordinates API**
+---
 
-**What's the response from the Coordinates API?**  
--   **`captcha`**: id of the provided captcha, if the **text** field is null, you will have to pool the url <http://api.dbcapi.me/api/captcha/captcha_id> until it becomes available
+<a id="sample-type-8-geetest-v3"></a>
+#### 🧩 Sample Type 8: GeeTest v3
+Official description: [GeeTest](https://deathbycaptcha.com/api/geetest)
+Full sample: [example.Geetest_v3.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Geetest_v3.js)
 
--   **`is_correct`**: (0 or 1) specifying if the captcha was marked as incorrect or unreadable
+```javascript
+const geetest_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    gt: 'gt_value',
+    challenge: 'challenge_value',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 8, geetest_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
--   **`text`**: a json-like nested list, with all the coordinates (x, y) to click relative to the image, for example:
+---
 
-                  [[23.21, 82.11]]
-              
-    where the X coordinate is 23.21 and the Y coordinate is 82.11
+<a id="sample-type-9-geetest-v4"></a>
+#### 🧩 Sample Type 9: GeeTest v4
+Official description: [GeeTest](https://deathbycaptcha.com/api/geetest)
+Full sample: [example.Geetest_v4.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Geetest_v4.js)
 
-****
+```javascript
+const geetest_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    captcha_id: 'captcha_id',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 9, geetest_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
-## Image Group API FAQ:
+---
 
-**What's the Image Group API URL?**  
-To use the **Image Group API** you will have to send a HTTP POST Request to <http://api.dbcapi.me/api/captcha>
+<a id="sample-type-11-text-captcha"></a>
+#### 💬 Sample Type 11: Text CAPTCHA
+Official description: [Text CAPTCHA](https://deathbycaptcha.com/api/textcaptcha)
+Full sample: [example.Textcaptcha.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Textcaptcha.js)
 
-**What are the POST parameters for the Image Group API?** 
+```javascript
+client.decode({extra: {type: 11, textcaptcha: 'What is two plus two?'}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
--   **`username`**: Your DBC account username
--   **`password`**: Your DBC account password
--   **`captchafile`**: the Base64 encoded file contents with a valid New Recaptcha screenshot. You must send each image in a single "captchafile" parameter. The order you send them matters
--   **`banner`**: the Base64 encoded banner image (the example image that appears on the upper right)
--   **`banner_text`**: the banner text (the text that appears on the upper left)
--   **`type`=3**: Type 3 specifies this is a New Recaptcha **Image Group API**
--   **`grid`**: Optional grid parameter specifies what grid individual images in captcha are aligned to (string, width+"x"+height, Ex.: "2x4", if images aligned to 4 rows with 2 images in each. If not supplied, dbc will attempt to autodetect the grid.
+---
 
-**What's the response from the Image Group API?**  
--   **`captcha`**: id of the provided captcha, if the **`text`** field is null, you will have to pool the url <http://api.dbcapi.me/api/captcha/captcha_id> until it becomes available
+<a id="sample-type-12-cloudflare-turnstile"></a>
+#### ☁️ Sample Type 12: Cloudflare Turnstile
+Official description: [Cloudflare Turnstile](https://deathbycaptcha.com/api/turnstile)
+Full sample: [example.Turnstile.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Turnstile.js)
 
--   **`is_correct`**: (0 or 1) specifying if the captcha was marked as incorrect or unreadable
+```javascript
+const turnstile_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    sitekey: 'sitekey',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 12, turnstile_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
--   **`text`**: a json-like list of the index for each image that should be clicked. for example:
+---
 
-                  [1, 4, 6]
-              
-    where the images that should be clicked are the first, the fourth and the six, counting from left to right and up to bottom
+<a id="sample-type-13-audio-captcha"></a>
+#### 🔊 Sample Type 13: Audio CAPTCHA
+Official description: [Audio CAPTCHA](https://deathbycaptcha.com/api/audio)
+Full sample: [example.Audio.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Audio.js)
 
+```javascript
+const fs = require('fs');
+const audio_b64 = fs.readFileSync('images/audio.mp3').toString('base64');
+client.decode({extra: {type: 13, audio: audio_b64, language: 'en'}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
-# New Recaptcha by Token API support (reCAPTCHA v2 and reCAPTCHA v3)
+---
 
+<a id="sample-type-14-lemin"></a>
+#### 🔵 Sample Type 14: Lemin
+Official description: [Lemin](https://deathbycaptcha.com/api/lemin)
+Full sample: [example.Lemin.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Lemin.js)
 
-## What's "new reCAPTCHA by Token"?
+```javascript
+const lemin_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    captchaid: 'CROPPED_xxx',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 14, lemin_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
+---
 
-They're new reCAPTCHA challenges that typically require the user to identify and click on certain images. They're not to be confused with traditional word/number reCAPTCHAs (those have no images).
+<a id="sample-type-15-capy"></a>
+#### 🏴 Sample Type 15: Capy
+Official description: [Capy](https://deathbycaptcha.com/api/capy)
+Full sample: [example.Capy.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Capy.js)
 
-For your convenience, we implemented support for New Recaptcha by Token API. If your software works with it, and supports minimal configuration, you should be able to decode captchas using Death By Captcha in no time.
+```javascript
+const capy_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    captchakey: 'PUZZLE_xxx',
+    api_server: 'https://api.capy.me/',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 15, capy_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
 
--   **Token Image API**: Provided a site url and site key, the API returns a token that you will use to submit the form in the page with the reCaptcha challenge.
+---
 
-## reCAPTCHA v2 API FAQ:
+<a id="sample-type-16-amazon-waf"></a>
+#### 🛡️ Sample Type 16: Amazon WAF
+Official description: [Amazon WAF](https://deathbycaptcha.com/api/amazonwaf)
+Full sample: [example.Amazon_Waf.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Amazon_Waf.js)
 
-**What's the Token Image API URL?**   
+```javascript
+const waf_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    sitekey: 'sitekey',
+    pageurl: 'https://target',
+    iv: 'iv_value',
+    context: 'context_value',
+});
+client.decode({extra: {type: 16, waf_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
+
+---
+
+<a id="sample-type-17-siara"></a>
+#### 🔍 Sample Type 17: Siara
+Official description: [Siara](https://deathbycaptcha.com/api/siara)
+Full sample: [example.Siara.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Siara.js)
+
+```javascript
+const siara_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    slideurlid: 'slide_master_url_id',
+    pageurl: 'https://target',
+    useragent: 'Mozilla/5.0',
+});
+client.decode({extra: {type: 17, siara_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
+
+---
+
+<a id="sample-type-18-mtcaptcha"></a>
+#### 🔒 Sample Type 18: MTCaptcha
+Official description: [MTCaptcha](https://deathbycaptcha.com/api/mtcaptcha)
+Full sample: [example.Mtcaptcha.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Mtcaptcha.js)
+
+```javascript
+const mtcaptcha_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    sitekey: 'MTPublic-xxx',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 18, mtcaptcha_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
+
+---
+
+<a id="sample-type-19-cutcaptcha"></a>
+#### ✂️ Sample Type 19: Cutcaptcha
+Official description: [Cutcaptcha](https://deathbycaptcha.com/api/cutcaptcha)
+Full sample: [example.Cutcaptcha.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Cutcaptcha.js)
+
+```javascript
+const cutcaptcha_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    apikey: 'api_key',
+    miserykey: 'misery_key',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 19, cutcaptcha_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
+
+---
+
+<a id="sample-type-20-friendly-captcha"></a>
+#### 💚 Sample Type 20: Friendly Captcha
+Official description: [Friendly Captcha](https://deathbycaptcha.com/api/friendly)
+Full sample: [example.Friendlycaptcha.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Friendlycaptcha.js)
+
+```javascript
+const friendly_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    sitekey: 'FCMG...',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 20, friendly_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
+
+---
+
+<a id="sample-type-21-datadome"></a>
+#### 🛡️ Sample Type 21: DataDome
+Official description: [DataDome](https://deathbycaptcha.com/api/datadome)
+Full sample: [example.Datadome.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Datadome.js)
+
+```javascript
+const datadome_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    pageurl: 'https://target',
+    captcha_url: 'https://target/captcha',
+});
+client.decode({extra: {type: 21, datadome_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
+
+---
+
+<a id="sample-type-23-tencent"></a>
+#### 🔑 Sample Type 23: Tencent
+Official description: [Tencent](https://deathbycaptcha.com/api/tencent)
+Full sample: [example.Tencent.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Tencent.js)
+
+```javascript
+const tencent_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    appid: 'appid',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 23, tencent_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
+
+---
+
+<a id="sample-type-24-atb"></a>
+#### 🏷️ Sample Type 24: ATB
+Official description: [ATB](https://deathbycaptcha.com/api/atb)
+Full sample: [example.Atb.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Atb.js)
+
+```javascript
+const atb_params = JSON.stringify({
+    proxy: 'http://user:pass@127.0.0.1:1234',
+    proxytype: 'HTTP',
+    appid: 'appid',
+    apiserver: 'https://cap.aisecurius.com',
+    pageurl: 'https://target',
+});
+client.decode({extra: {type: 24, atb_params}}, (captcha) => {
+    if (captcha) console.log(captcha['captcha'], captcha['text']);
+});
+```
+
+<a id="captcha-types-extended-reference"></a>
+## 📚 CAPTCHA Types Extended Reference
+
+Full API-level documentation for selected CAPTCHA types: parameter references, payload schemas, request/response formats, token lifespans, and integration notes.
+
+<a id="featured-sample-selenium-recaptcha-v2"></a>
+### ⭐ Featured Sample: Selenium reCAPTCHA v2
+
+This repository includes an integrated Selenium sample at:
+
+- `examples/selenium/`
+
+Use this sample when you need a browser-automation flow that extracts `sitekey`, requests a token using DeathByCaptcha (`type=4`), injects it into the page, and submits the form.
+
+Quick run:
+
+```bash
+npm install
+cp .env.sample .env
+# edit .env with DBC_USERNAME and DBC_PASSWORD
+node examples/selenium/recaptcha_v2_selenium.js
+```
+
+See detailed usage in [examples/selenium/README.md](examples/selenium/README.md).
+
+---
+
+<a id="recaptcha-image-based-api--deprecated-types-2--3"></a>
+### ⛔ reCAPTCHA Image-Based API — Deprecated (Types 2 & 3)
+
+> ⚠️ **Deprecated.** Types 2 (Coordinates) and 3 (Image Group) are legacy image-based reCAPTCHA challenge methods that are no longer used at captcha solving. Do not use them for new integrations — use the [reCAPTCHA Token API (v2 & v3)](#recaptcha-token-api-v2--v3) instead.
+
+---
+
+<a id="recaptcha-token-api-v2--v3"></a>
+### 🔐 reCAPTCHA Token API (v2 & v3)
+
+The Token-based API solves reCAPTCHA challenges by returning a token you inject directly into the page form, rather than clicking images. Given a site URL and site key, DBC solves the challenge on its side and returns a token valid for one submission.
+
+- **Token Image API**: Provided a site URL and site key, the API returns a token that you use to submit the form on the page with the reCAPTCHA challenge.
+
+---
+
+<a id="recaptcha-v2-api-faq"></a>
+### ❓ reCAPTCHA v2 API FAQ
+
+**What's the Token Image API URL?**
 To use the Token Image API you will have to send a HTTP POST Request to <http://api.dbcapi.me/api/captcha>
 
 **What are the POST parameters for the Token image API?**
 
 -   **`username`**: Your DBC account username
 -   **`password`**: Your DBC account password
--   **`type`=4**: Type 4 specifies this is a New Recaptcha Token Image API
+-   **`type`=4**: Type 4 specifies this is the reCAPTCHA v2 Token API
 -   **`token_params`=json(payload)**: the data to access the recaptcha challenge
 json payload structure:
     -   **`proxy`**: your proxy url and credentials (if any). Examples:
         -   <http://127.0.0.1:3128>
         -   <http://user:password@127.0.0.1:3128>
-    
+
     -   **`proxytype`**: your proxy connection protocol. For supported proxy types refer to Which proxy types are supported?. Example:
         -   HTTP
-    
+
     -   **`googlekey`**: the google recaptcha site key of the website with the recaptcha. For more details about the site key refer to What is a recaptcha site key?. Example:
         -   6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-
-    
+
     -   **`pageurl`**: the url of the page with the recaptcha challenges. This url has to include the path in which the recaptcha is loaded. Example: if the recaptcha you want to solve is in <http://test.com/path1>, pageurl has to be <http://test.com/path1> and not <http://test.com>.
-
     -   **`data-s`**: This parameter is only required for solve the google search tokens, the ones visible, while google search trigger the robot protection. Use the data-s value inside the google search response html. For regulars tokens don't use this parameter.
-    
-The **`proxy`** parameter is optional, but we strongly recommend to use one to prevent token rejection by the provided page due to inconsistencies between the IP that solved the captcha (ours if no proxy is provided) and the IP that submitted the token for verification (yours).
 
+The **`proxy`** parameter is optional, but we strongly recommend to use one to prevent token rejection by the provided page due to inconsistencies between the IP that solved the captcha (ours if no proxy is provided) and the IP that submitted the token for verification (yours).
 **Note**: If **`proxy`** is provided, **`proxytype`** is a required parameter.
 
 Full example of **`token_params`**:
@@ -304,32 +722,34 @@ Example of **`token_params`** for google search captchas:
 }
 ```
 
-**What's the response from the Token image API?**  
+**What's the response from the Token image API?**
 The token image API response has the same structure as regular captchas' response. Refer to Polling for uploaded CAPTCHA status for details about the response. The token will come in the text key of the response. It's valid for one use and has a 2 minute lifespan. It will be a string like the following:
 ```bash
 "03AOPBWq_RPO2vLzyk0h8gH0cA2X4v3tpYCPZR6Y4yxKy1s3Eo7CHZRQntxrdsaD2H0e6S3547xi1FlqJB4rob46J0-wfZMj6YpyVa0WGCfpWzBWcLn7tO_EYsvEC_3kfLNINWa5LnKrnJTDXTOz-JuCKvEXx0EQqzb0OU4z2np4uyu79lc_NdvL0IRFc3Cslu6UFV04CIfqXJBWCE5MY0Ag918r14b43ZdpwHSaVVrUqzCQMCybcGq0yxLQf9eSexFiAWmcWLI5nVNA81meTXhQlyCn5bbbI2IMSEErDqceZjf1mX3M67BhIb4"
 ```
 
-## What's "new reCAPTCHA v3"?
+---
 
-This API is quite similar to the tokens(reCAPTCHA v2) API. Only 2 new parameters were added, one for the `action` and other for the **minimal score(`min-score`)**
-
+<a id="what-is-recaptcha-v3"></a>
+### 🔎 What is reCAPTCHA v3?
+This API extends the reCAPTCHA v2 Token API with two additional parameters: `action` and **minimal score (`min_score`)**.
 reCAPTCHA v3 returns a score from each user, that evaluate if user is a bot or human. Then the website uses the score value that could range from 0 to 1 to decide if will accept or not the requests. Lower scores near to 0 are identified as bot.
-
 The `action` parameter at reCAPTCHA v3 is an additional data used to separate different captcha validations like for example **login**, **register**, **sales**, **etc**.
 
-## reCAPTCHA v3 API FAQ:
+---
 
-**What is `action` in reCAPTCHA v3?**  
+<a id="recaptcha-v3-api-faq"></a>
+### ❓ reCAPTCHA v3 API FAQ
+
+**What is `action` in reCAPTCHA v3?**
 Is a new parameter that allows processing user actions on the website differently.
-
-To find this we need to inspect the javascript code of the website looking for call of grecaptcha.execute function. Example: 
+To find this we need to inspect the javascript code of the website looking for call of grecaptcha.execute function. Example:
 ```javascript
 grecaptcha.execute('6Lc2fhwTAAAAAGatXTzFYfvlQMI2T7B6ji8UVV_f', {action: something})
 ```
 Sometimes it's really hard to find it and we need to look through all javascript files. We may also try to find the value of action parameter inside ___grecaptcha_cfg configuration object. Also we can call grecaptcha.execute and inspect javascript code. The API will use "verify" default value it if we won't provide action in our request.
 
-**What is `min-score` in reCAPTCHA v3 API?**  
+**What is `min-score` in reCAPTCHA v3 API?**
 The minimal score needed for the captcha resolution. We recommend using the 0.3 min-score value, scores highers than 0.3 are hard to get.
 
 **What are the POST parameters for the reCAPTCHA v3 API?**
@@ -342,21 +762,20 @@ json payload structure:
     -   **`proxy`**: your proxy url and credentials (if any).Examples:
         -   <http://127.0.0.1:3128>
         -   <http://user:password@127.0.0.1:3128>
-    
-    -   **`proxytype`**: your proxy connection protocol. For supported proxy types refer to Which proxy types are supported?. Example: 
+
+    -   **`proxytype`**: your proxy connection protocol. For supported proxy types refer to Which proxy types are supported?. Example:
         -   HTTP
-    
+
     -   **`googlekey`**: the google recaptcha site key of the website with the recaptcha. For more details about the site key refer to What is a recaptcha site key?. Example:
         -   6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-
-    
-    -   **`pageurl`**: the url of the page with the recaptcha challenges. This url has to include the path in which the recaptcha is loaded. Example: if the recaptcha you want to solve is in <http://test.com/path1>, pageurl has to be <http://test.com/path1> and not <http://test.com>.
-    
-    -   **`action`**: The action name.
-    
-    -   **`min_score`**: The minimal score, usually 0.3
-    
-The **`proxy`** parameter is optional, but we strongly recommend to use one to prevent rejection by the provided page due to inconsistencies between the IP that solved the captcha (ours if no proxy is provided) and the IP that submitted the solution for verification (yours).
 
+    -   **`pageurl`**: the url of the page with the recaptcha challenges. This url has to include the path in which the recaptcha is loaded. Example: if the recaptcha you want to solve is in <http://test.com/path1>, pageurl has to be <http://test.com/path1> and not <http://test.com>.
+
+    -   **`action`**: The action name.
+
+    -   **`min_score`**: The minimal score, usually 0.3
+
+The **`proxy`** parameter is optional, but we strongly recommend to use one to prevent rejection by the provided page due to inconsistencies between the IP that solved the captcha (ours if no proxy is provided) and the IP that submitted the solution for verification (yours).
 **Note**: If **`proxy`** is provided, **`proxytype`** is a required parameter.
 
 Full example of **`token_params`**:
@@ -371,12 +790,108 @@ Full example of **`token_params`**:
 }
 ```
 
-**What's the response from reCAPTCHA v3 API?**  
+**What's the response from reCAPTCHA v3 API?**
 The response has the same structure as regular captcha. Refer to [Polling for uploaded CAPTCHA status](https://deathbycaptcha.com/api#polling-captcha) for details about the response. The solution will come in the **text** key of the response. It's valid for one use and has a 1 minute lifespan.
 
+---
 
-## Testing
+<a id="amazon-waf-api-type-16"></a>
+### 🛡️ Amazon WAF API (Type 16)
 
+Amazon WAF Captcha (also referred to as AWS WAF Captcha) is part of the Intelligent Threat Mitigation system within Amazon AWS. It presents image-alignment challenges that DBC solves by returning a token you set as the `aws-waf-token` cookie on the target page.
+
+- **Official documentation:** [deathbycaptcha.com/api/amazonwaf](https://deathbycaptcha.com/api/amazonwaf)
+- **Node.js sample:** [examples/example.Amazon_Waf.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Amazon_Waf.js)
+
+**API URL:** Send a HTTP POST request to `http://api.dbcapi.me/api/captcha`
+
+**POST parameters:**
+
+-   **`username`**: Your DBC account username
+-   **`password`**: Your DBC account password
+-   **`type`=16**: Type 16 specifies this is the Amazon WAF API
+-   **`waf_params`=json(payload)**: The data needed to access the Amazon WAF challenge
+
+`waf_params` payload fields:
+
+| Parameter | Required | Description |
+|---|---|---|
+| `proxy` | Optional\* | Proxy URL with credentials. E.g. `http://user:password@127.0.0.1:3128` |
+| `proxytype` | Required if proxy set | Proxy protocol. Currently only `HTTP` is supported. |
+| `sitekey` | Required | Amazon WAF site key found in the page's captcha script (value of the `key` parameter) |
+| `pageurl` | Required | Full URL of the page showing the Amazon WAF challenge (must include the path) |
+| `iv` | Required | Value of the `iv` parameter found in the captcha script on the page |
+| `context` | Required | Value of the `context` parameter found in the captcha script on the page |
+| `challengejs` | Optional | URL of the `challenge.js` script referenced on the page |
+| `captchajs` | Optional | URL of the `captcha.js` script referenced on the page |
+
+> The `proxy` parameter is optional but strongly recommended — using a proxy prevents token rejection caused by IP inconsistencies between the solving machine (DBC) and the submitting machine (yours).
+> **📌 Note:** If `proxy` is provided, `proxytype` is required.
+
+Full example of `waf_params`:
+
+```json
+{
+  "proxy": "http://user:password@127.0.0.1:1234",
+  "proxytype": "HTTP",
+  "sitekey": "AQIDAHjcYu/GjX+QlghicBgQ/7bFaQZ+m5FKCMDnO+vTbNg96AHDh0IR5vgzHNceHYqZR+GO...",
+  "pageurl": "https://efw47fpad9.execute-api.us-east-1.amazonaws.com/latest",
+  "iv": "CgAFRjIw2vAAABSM",
+  "context": "zPT0jOl1rQlUNaldX6LUpn4D6Tl9bJ8VUQ/NrWFxPii..."
+}
+```
+
+**Response:** The API returns a token string valid for one use with a 1-minute lifespan. Once received, set it as the `aws-waf-token` cookie on the target page before submitting the form.
+
+---
+
+<a id="cloudflare-turnstile-api-type-12"></a>
+### 🌐 Cloudflare Turnstile API (Type 12)
+
+Cloudflare Turnstile is a CAPTCHA alternative that protects pages without requiring user interaction in most cases. DBC solves it by returning a token you inject into the target form or pass to the page's callback.
+
+- **Official documentation:** [deathbycaptcha.com/api/turnstile](https://deathbycaptcha.com/api/turnstile)
+- **Node.js sample:** [examples/example.Turnstile.js](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/blob/master/examples/example.Turnstile.js)
+
+**API URL:** Send a HTTP POST request to `http://api.dbcapi.me/api/captcha`
+
+| POST Parameter | Description |
+|---|---|
+| `username` | Your DBC account username |
+| `password` | Your DBC account password |
+| `type` | `12` — specifies this is a Turnstile API request |
+| `turnstile_params` | JSON-encoded payload (see fields below) |
+
+**`turnstile_params` payload fields:**
+
+| Field | Required | Description |
+|---|---|---|
+| `proxy` | Optional | Proxy URL with optional credentials. E.g. `http://user:password@127.0.0.1:3128` |
+| `proxytype` | Required if `proxy` set | Proxy connection protocol. Currently only `HTTP` is supported. |
+| `sitekey` | Required | The Turnstile site key found in `data-sitekey` attribute, the captcha iframe URL, or the `turnstile.render` call. E.g. `0x4AAAAAAAGlwMzq_9z6S9Mh` |
+| `pageurl` | Required | Full URL of the page hosting the Turnstile challenge, including path. E.g. `https://testsite.com/xxx-test` |
+| `action` | Optional | Value of the `data-action` attribute or the `action` option passed to `turnstile.render`. |
+
+> **📌 Note:** The `proxy` parameter is optional but strongly recommended to avoid rejection due to IP inconsistency between the solver and the submitter. If `proxy` is provided, `proxytype` becomes required.
+
+**Example `turnstile_params`:**
+
+```json
+{
+    "proxy": "http://user:password@127.0.0.1:1234",
+    "proxytype": "HTTP",
+    "sitekey": "0x4AAAAAAAGlwMzq_9z6S9Mh",
+    "pageurl": "https://testsite.com/xxx-test"
+}
+```
+
+**Response:** The API returns a token string valid for one use with a 2-minute lifespan. Submit it via the `input[name="cf-turnstile-response"]` field or pass it to the callback defined in `turnstile.render` / `data-callback`.
+
+---
+
+## 🔬 Testing
+
+<a id="setup-test-environment"></a>
 ### Setup test environment
 
 1. Install dependencies:
@@ -400,12 +915,20 @@ DBC_PASSWORD=your_dbc_password
 
 4. Ensure browser + driver are available (`firefox` + `geckodriver` by default).
 
-### Run Selenium integration test
+<a id="run-unit-tests"></a>
+### Run unit tests
 
 ```bash
-npm run test:integration:selenium
+npm run test:unit
 ```
 
+### Run unit coverage
+
+```bash
+npm run test:coverage
+```
+
+<a id="run-api-basic-integration-test"></a>
 ### Run API basic integration test
 
 ```bash
@@ -424,30 +947,27 @@ Test file:
 
 - [tests/integration/api.basic.integration.test.js](tests/integration/api.basic.integration.test.js)
 
-### Run unit tests
+<a id="run-selenium-integration-test"></a>
+### Run Selenium integration test
 
 ```bash
-npm run test:unit
-```
-
-### Run unit coverage
-
-```bash
-npm run test:coverage
-```
-
-### Run full integration suite
-
-```bash
-npm run test:integration
+npm run test:integration:selenium
 ```
 
 The test file is:
 
 - [tests/integration/selenium.integration.test.js](tests/integration/selenium.integration.test.js)
 
+<a id="run-full-integration-suite"></a>
+### Run full integration suite
+
+```bash
+npm run test:integration
+```
+
 ## CI
 
+<a id="gitlab-unit-test-matrix"></a>
 ### GitLab unit test matrix
 
 GitLab CI is configured in:
@@ -483,7 +1003,7 @@ This avoids declaring multiple separate username/password variables in GitLab.
 
 For local `gitlab-ci-local` runs, the easiest option is a local-only variables file:
 
-1. Copy [ .gitlab-ci-local-variables.example.yml ](.gitlab-ci-local-variables.example.yml) to `.gitlab-ci-local-variables.yml`
+1. Copy [.gitlab-ci-local-variables.example.yml](.gitlab-ci-local-variables.example.yml) to `.gitlab-ci-local-variables.yml`
 2. Fill your real credentials there
 3. Run:
 
@@ -493,6 +1013,7 @@ gitlab-ci-local --file ./.gitlab-ci.yml
 
 `gitlab-ci-local` loads `.gitlab-ci-local-variables.yml` automatically, and the pipeline will pass `DBC_ENV` into the integration job without requiring committed `.env` credentials.
 
+<a id="github-actions"></a>
 ### GitHub Actions
 
 GitHub Actions is configured in:
@@ -547,11 +1068,6 @@ npm run test:integration:api
     - `MOZ_HEADLESS=1`
 - No committed `.env` file is required in GitHub Actions
 
-```bash
-DBC_USERNAME=your_dbc_username
-DBC_PASSWORD=your_dbc_password
-```
-
 - If either secret is missing, the workflow skips the integration test without failing the pipeline
 - Exposes a native GitHub Actions workflow badge
 
@@ -569,7 +1085,6 @@ DBC_PASSWORD=your_dbc_password
 | API npm Integration | 24 | [![API npm Integration](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-npm-integration.yml/badge.svg)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/api-npm-integration.yml) |
 | Coverage | 22 | [![Coverage](https://img.shields.io/endpoint?url=https://deathbycaptcha.github.io/deathbycaptcha-api-client-nodejs/coverage-badge.json)](https://github.com/deathbycaptcha/deathbycaptcha-api-client-nodejs/actions/workflows/coverage.yml) |
 
-## Responsible Use
+## ⚖️ Responsible Use
 
 See [Responsible Use Agreement](RESPONSIBLE_USE.md).
-
