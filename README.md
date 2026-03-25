@@ -14,7 +14,7 @@
 
 ## 📖 Introduction
 
-The [DeathByCaptcha](https://deathbycaptcha.com) Node.js client is the official library for the DeathByCaptcha **captcha solving service**. It provides a simple, well-documented interface for integrating CAPTCHA solving into automation workflows — a particularly common need when you use it as a **captcha solver for web scraping**, where CAPTCHAs block access to the pages you need to extract data from. It supports both the HTTPS API (encrypted transport — recommended when security is a priority) and the socket-based API (faster and lower latency, recommended for high-throughput production workloads).
+The [DeathByCaptcha](https://deathbycaptcha.com) Node.js client is the official **captcha API for automation tools** — web scrapers, browser automation frameworks, and testing pipelines that need to solve CAPTCHA challenges programmatically. It is also a battle-tested **recaptcha solver API**, with full support for reCAPTCHA v2, v3, and Enterprise token solving, plus Cloudflare Turnstile, GeeTest, Amazon WAF, and many more types. The library ships with both an HTTPS transport (encrypted — recommended when security is a priority) and a socket transport (lower latency — recommended for high-throughput production workloads).
 
 Key features:
 
