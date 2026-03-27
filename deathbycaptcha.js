@@ -54,7 +54,8 @@ upload({captcha=null, extra={}}, (captcha) => {})
 
 decode({captcha=null, timeout=null, extra={}}, (captcha) => {})
     A convenient method that uploads a CAPTCHA and polls for its status
-    periodically, but no longer than `timeout` (defaults to 60 seconds).
+    periodically, but no longer than `timeout` (defaults to 60 seconds for
+    image CAPTCHAs, 120 seconds for token/special CAPTCHAs).
     If solved, you'll get the CAPTCHA details JSON (see get_captcha()
     method for details).  See upload() method for details on `captcha`
     argument.
