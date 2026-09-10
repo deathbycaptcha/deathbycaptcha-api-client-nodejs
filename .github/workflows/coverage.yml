@@ -104,7 +104,9 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: pages
+          if-no-files-found: ignore
 
       - name: Deploy to GitHub Pages
         if: ${{ github.event_name != 'pull_request' }}
         uses: actions/deploy-pages@v4
+        timeout-minutes: 5
