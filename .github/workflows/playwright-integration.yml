@@ -1,0 +1,47 @@
+name: Playwright Integration Tests
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  playwright-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+
+      - name: Check integration secrets
+        id: secrets-check
+        run: |
+          if [ -z "${{ secrets.DBC_USERNAME }}" ] || [ -z "${{ secrets.DBC_PASSWORD }}" ]; then
+            echo "missing=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "missing=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip (missing secrets)
+        if: steps.secrets-check.outputs.missing == 'true'
+        run: |
+          echo "DBC_USERNAME/DBC_PASSWORD are not configured in repository secrets."
+          echo "Skipping playwright integration tests."
+
+      - name: Run playwright integration tests
+        if: steps.secrets-check.outputs.missing == 'false'
+        env:
+          DBC_USERNAME: ${{ secrets.DBC_USERNAME }}
+          DBC_PASSWORD: ${{ secrets.DBC_PASSWORD }}
+          DBC_PLAYWRIGHT_HEADLESS: "true"
+          DBC_TEST_CAPTCHA_URL: "https://www.google.com/recaptcha/api2/demo"
+        run: node tests/integration/playwright.integration.test.js

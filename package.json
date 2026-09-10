@@ -15,10 +15,11 @@
     "test": "echo \"Use npm run test:integration\"",
     "test:unit": "jest --runInBand",
     "test:coverage": "jest --coverage --runInBand",
-    "test:integration": "npm run test:integration:api && npm run test:integration:selenium",
+    "test:integration": "npm run test:integration:api && npm run test:integration:selenium && npm run test:integration:playwright",
     "test:integration:api": "node tests/integration/api.basic.integration.test.js",
     "test:integration:npm": "node tests/integration/api.npm.integration.test.js",
-    "test:integration:selenium": "node tests/integration/selenium.integration.test.js"
+    "test:integration:selenium": "node tests/integration/selenium.integration.test.js",
+    "test:integration:playwright": "node tests/integration/playwright.integration.test.js"
   },
   "jest": {
     "testMatch": [
@@ -46,7 +47,8 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "selenium-webdriver": "^4.41.0"
+    "selenium-webdriver": "^4.41.0",
+    "playwright": "^1.52.0"
   },
   "directories": {
     "example": "examples",
