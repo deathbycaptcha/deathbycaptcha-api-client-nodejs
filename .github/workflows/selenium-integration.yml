@@ -8,7 +8,7 @@ on:
 jobs:
   selenium_integration:
     name: Selenium integration (reCAPTCHA v2)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       MOZ_HEADLESS: '1'
       DBC_USERNAME: ${{ secrets.DBC_USERNAME }}
