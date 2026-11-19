@@ -82,7 +82,7 @@ async function runPlaywrightSample({
       throw new Error('No captcha solution received (consider retry).');
     }
 
-    logger.log(`Solution: ${solution.text}`);
+    logger.log(`Token received (${solution.text.length} characters)`);
 
     await page.evaluate(
       (token) => {

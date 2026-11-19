@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+- The Playwright reCAPTCHA v2 sample no longer prints the solved token.
+
 ## 4.7.1 - 2026-03-11
 
 ### Added
