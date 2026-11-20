@@ -64,6 +64,7 @@ client.decode({captcha: 'path/to/captcha.jpg'}, (captcha) => {
 - [CAPTCHA Types Extended Reference](#captcha-types-extended-reference)
     - [Featured Sample: Selenium reCAPTCHA v2](#featured-sample-selenium-recaptcha-v2)
     - [Featured Sample: Playwright reCAPTCHA v2](#-featured-sample-playwright-recaptcha-v2)
+    - [Featured Sample: Puppeteer reCAPTCHA v2](#-featured-sample-puppeteer-recaptcha-v2)
     - [reCAPTCHA Image-Based API — Deprecated (Types 2 & 3)](#recaptcha-image-based-api--deprecated-types-2--3)
     - [reCAPTCHA Token API (v2 & v3)](#recaptcha-token-api-v2--v3)
     - [reCAPTCHA v2 API FAQ](#recaptcha-v2-api-faq)
@@ -669,6 +670,28 @@ node examples/playwright/recaptcha_v2_playwright.js
 ```
 
 See detailed usage in [examples/playwright/README.md](examples/playwright/README.md).
+
+---
+
+<a id="-featured-sample-puppeteer-recaptcha-v2"></a>
+### ⭐ Featured Sample: Puppeteer reCAPTCHA v2
+
+This repository includes an integrated Puppeteer sample at:
+
+- `examples/puppeteer/`
+
+Use this sample when you need a browser-automation flow that extracts `sitekey`, requests a token using DeathByCaptcha (`type=4`), injects it into the page, and submits the form — using Puppeteer.
+
+Quick run:
+
+```bash
+npm install
+cp .env.sample .env
+# edit .env with DBC_USERNAME and DBC_PASSWORD
+node examples/puppeteer/recaptcha_v2_puppeteer.js
+```
+
+See detailed usage in [examples/puppeteer/README.md](examples/puppeteer/README.md).
 
 ---
 

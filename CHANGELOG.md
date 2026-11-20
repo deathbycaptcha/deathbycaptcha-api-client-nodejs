@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+- Puppeteer reCAPTCHA v2 sample (`examples/puppeteer/`), its integration
+  test and the Puppeteer CI workflow.
+
 ### Fixed
 - The Playwright reCAPTCHA v2 sample no longer prints the solved token.
 
