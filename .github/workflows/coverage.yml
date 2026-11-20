@@ -16,15 +16,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
 
       - name: Cache npm
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-coverage-node-22-npm-${{ hashFiles('package.json') }}
@@ -87,7 +87,7 @@ jobs:
 
       - name: Upload coverage artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-node-22
           path: |
@@ -97,16 +97,16 @@ jobs:
 
       - name: Configure Pages
         if: ${{ github.event_name != 'pull_request' }}
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Upload Pages artifact
         if: ${{ github.event_name != 'pull_request' }}
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: pages
 
       - name: Deploy to GitHub Pages
         if: ${{ github.event_name != 'pull_request' }}
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
         timeout-minutes: 5
         continue-on-error: true
