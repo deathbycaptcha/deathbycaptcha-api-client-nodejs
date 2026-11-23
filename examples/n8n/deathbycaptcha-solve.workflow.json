@@ -1,0 +1,223 @@
+{
+  "name": "DeathByCaptcha - solve a CAPTCHA",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "When clicking Test workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Build the DeathByCaptcha upload body from the input item.\n// Credentials come from the environment (self-hosted n8n):\n//   DBC_USERNAME / DBC_PASSWORD   or   DBC_AUTHTOKEN\n// Enable environment access for nodes if n8n blocks it:\n//   N8N_BLOCK_ENV_ACCESS_IN_NODE=false\nconst PARAMS_KEY = {\n  4: 'token_params',\n  5: 'token_params',\n  25: 'token_enterprise_params',\n  8: 'geetest_params',\n  9: 'geetest_params',\n  11: 'textcaptcha',\n  12: 'turnstile_params',\n  16: 'waf_params',\n  21: 'datadome_params',\n};\n\nconst encode = (value) => encodeURIComponent(value);\n\nreturn $input.all().map((item) => {\n  const json = item.json || {};\n  const type = json.type ?? 4;\n  const params = json.params ?? {};\n  const pairs = [];\n\n  if ($env.DBC_AUTHTOKEN) {\n    pairs.push(['authtoken', $env.DBC_AUTHTOKEN]);\n  } else {\n    pairs.push(['username', $env.DBC_USERNAME || '']);\n    pairs.push(['password', $env.DBC_PASSWORD || '']);\n  }\n\n  pairs.push(['type', String(type)]);\n\n  const key = PARAMS_KEY[type] || 'token_params';\n  if (Object.keys(params).length > 0) {\n    pairs.push([key, JSON.stringify(params)]);\n  }\n\n  if (json.image_base64) {\n    pairs.push(['captcha', json.image_base64]);\n  }\n\n  const body = pairs.map(([k, v]) => encode(k) + '=' + encode(v)).join('&');\n\n  return { json: { ...json, type, body } };\n});"
+      },
+      "id": "build-request",
+      "name": "Build request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.dbcapi.me/api/captcha",
+        "sendBody": true,
+        "specifyBody": "raw",
+        "rawContentType": "application/x-www-form-urlencoded",
+        "body": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "upload",
+      "name": "Upload CAPTCHA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "wait",
+      "name": "Wait 2s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.dbcapi.me/api/captcha/{{ $json.captcha }}",
+        "options": {}
+      },
+      "id": "poll",
+      "name": "Get result",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "solved",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "solved",
+      "name": "Solved?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "done",
+      "name": "Done",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        -100
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "retry",
+      "name": "Wait and poll again",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        100
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking Test workflow": {
+      "main": [
+        [
+          {
+            "node": "Build request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build request": {
+      "main": [
+        [
+          {
+            "node": "Upload CAPTCHA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload CAPTCHA": {
+      "main": [
+        [
+          {
+            "node": "Wait 2s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2s": {
+      "main": [
+        [
+          {
+            "node": "Get result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get result": {
+      "main": [
+        [
+          {
+            "node": "Solved?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Solved?": {
+      "main": [
+        [
+          {
+            "node": "Done",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait and poll again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait and poll again": {
+      "main": [
+        [
+          {
+            "node": "Wait 2s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

@@ -65,6 +65,7 @@ client.decode({captcha: 'path/to/captcha.jpg'}, (captcha) => {
     - [Featured Sample: Selenium reCAPTCHA v2](#featured-sample-selenium-recaptcha-v2)
     - [Featured Sample: Playwright reCAPTCHA v2](#-featured-sample-playwright-recaptcha-v2)
     - [Featured Sample: Puppeteer reCAPTCHA v2](#-featured-sample-puppeteer-recaptcha-v2)
+    - [Example: n8n workflow](#-example-n8n-workflow)
     - [reCAPTCHA Image-Based API — Deprecated (Types 2 & 3)](#recaptcha-image-based-api--deprecated-types-2--3)
     - [reCAPTCHA Token API (v2 & v3)](#recaptcha-token-api-v2--v3)
     - [reCAPTCHA v2 API FAQ](#recaptcha-v2-api-faq)
@@ -692,6 +693,29 @@ node examples/puppeteer/recaptcha_v2_puppeteer.js
 ```
 
 See detailed usage in [examples/puppeteer/README.md](examples/puppeteer/README.md).
+
+---
+
+<a id="-example-n8n-workflow"></a>
+### 🕸️ Example: n8n workflow
+
+`examples/n8n/` contains an importable n8n workflow that solves a CAPTCHA
+with DeathByCaptcha and returns the token to the rest of the workflow.
+
+- Uses the built-in HTTP Request nodes; no community node package.
+- Reads the account from the environment (`DBC_USERNAME`/`DBC_PASSWORD` or
+  `DBC_AUTHTOKEN`); self-hosted n8n needs `N8N_BLOCK_ENV_ACCESS_IN_NODE=false`.
+- Polls the API every two seconds until the challenge is solved.
+
+Quick start:
+
+```bash
+# In n8n: Workflows -> Import from File
+# examples/n8n/deathbycaptcha-solve.workflow.json
+```
+
+See input fields, credentials and limitations in
+[examples/n8n/README.md](examples/n8n/README.md).
 
 ---
 

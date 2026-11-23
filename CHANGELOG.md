@@ -5,6 +5,8 @@
 ### Added
 - Puppeteer reCAPTCHA v2 sample (`examples/puppeteer/`), its integration
   test and the Puppeteer CI workflow.
+- n8n workflow example (`examples/n8n/`) with a reference implementation,
+  a generated workflow JSON and unit tests.
 
 ### Fixed
 - The Playwright reCAPTCHA v2 sample no longer prints the solved token.
