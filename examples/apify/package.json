@@ -1,0 +1,14 @@
+{
+  "name": "deathbycaptcha-apify-actor",
+  "version": "0.0.1",
+  "private": true,
+  "description": "DeathByCaptcha CAPTCHA solver actor for Apify",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "dependencies": {
+    "apify": "^3.8.0",
+    "deathbycaptcha-lib": "^4.7.1"
+  },
+  "license": "MIT"
+}

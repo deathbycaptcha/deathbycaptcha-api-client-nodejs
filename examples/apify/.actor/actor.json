@@ -1,0 +1,9 @@
+{
+  "name": "deathbycaptcha-captcha-solver",
+  "title": "DeathByCaptcha CAPTCHA solver",
+  "description": "Solve image and token CAPTCHAs with DeathByCaptcha and store the solution in the run dataset.",
+  "version": "0.0.1",
+  "buildTag": "latest",
+  "dockerfile": "./Dockerfile",
+  "input": "./INPUT_SCHEMA.json"
+}

@@ -1,0 +1,28 @@
+{
+  "title": "DeathByCaptcha solver input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "type": {
+      "title": "CAPTCHA type",
+      "type": "integer",
+      "default": 4,
+      "description": "0 image, 4 reCAPTCHA v2, 5 reCAPTCHA v3, 12 Turnstile, 16 Amazon WAF, 21 DataDome, 25 reCAPTCHA v2 Enterprise."
+    },
+    "params": {
+      "title": "Type parameters",
+      "type": "object",
+      "description": "googlekey or sitekey, pageurl, action, min_score, iv, context... The key is chosen from the type, the same way the API clients do."
+    },
+    "image": {
+      "title": "Image (base64)",
+      "type": "string",
+      "description": "Base64 image for type 0."
+    },
+    "timeout": {
+      "title": "Timeout (seconds)",
+      "type": "integer",
+      "description": "Optional. The client defaults to 60 seconds for image types and 120 for token types."
+    }
+  }
+}
