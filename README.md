@@ -66,6 +66,7 @@ client.decode({captcha: 'path/to/captcha.jpg'}, (captcha) => {
     - [Featured Sample: Playwright reCAPTCHA v2](#-featured-sample-playwright-recaptcha-v2)
     - [Featured Sample: Puppeteer reCAPTCHA v2](#-featured-sample-puppeteer-recaptcha-v2)
     - [Example: n8n workflow](#-example-n8n-workflow)
+    - [Example: Cypress test](#-example-cypress-test)
     - [reCAPTCHA Image-Based API — Deprecated (Types 2 & 3)](#recaptcha-image-based-api--deprecated-types-2--3)
     - [reCAPTCHA Token API (v2 & v3)](#recaptcha-token-api-v2--v3)
     - [reCAPTCHA v2 API FAQ](#recaptcha-v2-api-faq)
@@ -716,6 +717,34 @@ Quick start:
 
 See input fields, credentials and limitations in
 [examples/n8n/README.md](examples/n8n/README.md).
+
+---
+
+<a id="-example-cypress-test"></a>
+### 🧪 Example: Cypress test
+
+`examples/cypress/` solves a CAPTCHA from a Cypress test through
+DeathByCaptcha. Tasks run in Node, so the official client loads there:
+the credentials never reach the browser and the token is returned to the
+test instead of printed, which keeps it out of the command log and out of
+a CI job's output.
+
+- Commands: `cy.dbcSolveRecaptchaV2`, `cy.dbcSolveRecaptchaV3`,
+  `cy.dbcSolveTurnstile`, `cy.dbcSolveImage`, `cy.dbcBalance`.
+- The sample spec solves Google's reCAPTCHA demo and submits it, the
+  same steps as the Playwright and Puppeteer samples.
+- Reads the account from the environment (`DBC_USERNAME`/`DBC_PASSWORD`
+  or `DBC_AUTHTOKEN`).
+
+Quick start:
+
+```bash
+npm install
+npx cypress run --project examples/cypress
+```
+
+See the setup, the commands and the limits in
+[examples/cypress/README.md](examples/cypress/README.md).
 
 ---
 

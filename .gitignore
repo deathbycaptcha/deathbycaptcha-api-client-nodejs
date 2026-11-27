@@ -41,3 +41,7 @@ temp/
 Thumbs.db
 .idea/
 .vscode/
+
+# Cypress run output (videos and screenshots of failed specs)
+examples/cypress/cypress/videos/
+examples/cypress/cypress/screenshots/

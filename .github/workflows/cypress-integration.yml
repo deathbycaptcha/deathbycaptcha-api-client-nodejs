@@ -1,0 +1,47 @@
+name: Cypress Integration Tests
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  cypress-integration:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Verify the Cypress binary
+        run: npx cypress verify
+
+      - name: Check integration secrets
+        id: secrets-check
+        run: |
+          if [ -z "${{ secrets.DBC_USERNAME }}" ] || [ -z "${{ secrets.DBC_PASSWORD }}" ]; then
+            echo "missing=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "missing=false" >> "$GITHUB_OUTPUT"
+          fi
+          # The tasks never print a solution, so nothing here can leak.
+
+      - name: Skip (missing secrets)
+        if: steps.secrets-check.outputs.missing == 'true'
+        run: |
+          echo "DBC_USERNAME/DBC_PASSWORD are not configured in repository secrets."
+          echo "Skipping cypress integration tests."
+
+      - name: Run cypress integration tests
+        if: steps.secrets-check.outputs.missing == 'false'
+        env:
+          DBC_USERNAME: ${{ secrets.DBC_USERNAME }}
+          DBC_PASSWORD: ${{ secrets.DBC_PASSWORD }}
+        run: node tests/integration/cypress.integration.test.js

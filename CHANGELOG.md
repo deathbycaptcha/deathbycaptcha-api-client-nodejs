@@ -3,6 +3,9 @@
 ## Unreleased
 
 ### Added
+- Cypress example (`examples/cypress/`) with the task layer, the
+  `cy.dbc*` commands, a spec that solves Google's reCAPTCHA demo, unit
+  tests, a live test and its CI workflow.
 - Puppeteer reCAPTCHA v2 sample (`examples/puppeteer/`), its integration
   test and the Puppeteer CI workflow.
 - n8n workflow example (`examples/n8n/`) with a reference implementation,
